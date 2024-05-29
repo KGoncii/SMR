@@ -1,0 +1,32 @@
+Tipsy:
+
+Połączenie:
+- W przypadku pierwszego odpalenia programu normalnym jest wyskoczenie kilku ostrzeżeń, należy odczekać około 30s zanim program się włączy i dopiero wtedy należy edytować opcję "Połączenie"
+- Przycisk "Połącz" resetuje program
+- Przycisk "Anuluj" zamyka okno łączenia
+
+Dodawanie:
+- Jedyne wymagane dane to Pracownik i Klient
+- W przypadku nie wpisania daty zostanie ustawiona aktualna data
+- W pole Czas i Dystans należy wpisywać liczby bez jednostek
+- Pole Czas przyjmuje wartości typu (1, 1,5, 2, 0,5), a Dystans(5, 10, 105, 30)
+- W przypadku nie wpisania czasu i dystansu zostanie tam automatycznie wpisane 0
+- Aktywny przycisk "Zdalnie" blokuje możliwość edycji rubryki dystans
+- Po wciśnięciu przycisku "Nowy" pojawi się możliwość dodania nowego klienta, pole "Firma" jest zawsze wymagane, zaleca się podawanie nazwy firmy nie dłuższej niż 18 znaków ponieważ mogą one być ucinane na innych stronach programu. (W raporcie dalej będą wyświetlane poprawnie więc możliwość podawanie dłuższych nazw nie jest zablokowana)
+- Dodanie nowego klienta odświeża formularz
+
+Generuj:
+- W raporcie będą uwzględnione tylko aktualnie widoczne w podglądzie wiersze z zaznaczony checkboxem "Uwzględnij"
+- Podgląd w celu zwiększenia czytelności nie zwija tekstu, żeby zobaczyć całe komórki formularza trzeba przejść do zakładki "Edytuj"
+- Program może generować raporty w formacie .doc i .pdf, generowany będzie tylko ten format pliku który jest zaznaczony
+- Raport generowany jest od najmłodszego wprowadzonego zamówienia do najstarszego
+
+Edytuj:
+- Edytowane będą tylko aktualnie widoczne w podglądzie wiersze z zaznaczony checkbox "Uwzględnij"
+- Edycja staje się możliwa po podwójnym kliknięciu na daną komórkę
+- W przypadku wpisania niewystępującej w bazie nazwy firmy program spyta czy chcesz dodać tego klienta otwierając okno dodawania klienta
+- Kulumna ID jest nie edytowalna i służy ewentualnemu szukaniu niezgodności
+- Kolumny Czas i Dojazd posiadają kilka wyjątków które odpowiednio formatują niektóre źle wprowadzone dane ale w przypadku wyjątkowo źle podanej składni może wyskoczyć powiadomienie o błędnie wprowadzonych danych
+
+Pod zrobienie skrótu wejdź w SMR3 > SMR3 > bin > Debug > SMR3.exe
+poniżej powinno znajdować się smrlogo.ico pod ustawienie ikony skrótu

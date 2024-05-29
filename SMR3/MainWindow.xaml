@@ -1,0 +1,445 @@
+﻿<Window x:Class="SMR3.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        FontSize="16"
+        Title="Dodaj zamówienie" Height="640" Width="700"
+        Icon="smrlogo.ico">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="BorderBrush" Value="Blue"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Rectangle x:Name="border"
+                                   Fill="{TemplateBinding Background}"
+                                   Stroke="{TemplateBinding BorderBrush}"
+                                   StrokeThickness="{TemplateBinding BorderThickness}"
+                                   RadiusX="15" RadiusY="15"
+                                   SnapsToDevicePixels="True"/>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Fill" Value="blue"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="BorderThickness" Value="3"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TextBoxTest2" TargetType="{x:Type TextBox}">
+            <Setter Property="BorderBrush" Value="Blue"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="MaxWidth" Value="310"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ComboBoxTest2" TargetType="{x:Type ComboBox}">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Grid.Column="2" Focusable="false" IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}" >
+                                <ToggleButton.Template>
+                                    <ControlTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="5*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border x:Name="Border"  Grid.ColumnSpan="2" CornerRadius="10" Background="White" BorderBrush="Blue" BorderThickness="1"/>
+                                            <Border Grid.Column="0" CornerRadius="10,0,0,10"  Margin="1"  Background="White"  BorderBrush="Blue" BorderThickness="0,0,1,0"/>
+                                            <Path x:Name="Arrow" Grid.Column="1"  Fill="Blue" HorizontalAlignment="Center" VerticalAlignment="Center" Data="M 0 0 L 4 4 L 8 0 Z"/>
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="blue" />
+                                                <Setter TargetName="Arrow" Property="Fill" Value="white" />
+                                            </Trigger>
+                                            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                                                <Setter TargetName="Border" Property="Background" Value="blue" />
+                                                <Setter TargetName="Arrow" Property="Fill" Value="white" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" 
+                  IsHitTestVisible="False"  
+                  Content="{TemplateBinding SelectionBoxItem}" 
+                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" 
+                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" 
+                  Margin="-30,3,3,3"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"/>
+                            <TextBox x:Name="PART_EditableTextBox" Visibility="Hidden" IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True"  Focusable="False" PopupAnimation="Slide">
+                                <Grid  Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding ActualWidth}" MaxHeight="{TemplateBinding MaxDropDownHeight}" MaxWidth="220">
+                                    <Border x:Name="DropDownBorder" Background="white" BorderBrush="Blue"/>
+                                    <ScrollViewer SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="20"/>
+        </Style>
+        <Style x:Key="DatePickerTextBoxStyle1" TargetType="{x:Type DatePickerTextBox}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
+            <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DatePickerTextBox}">
+                        <Grid>
+                            <Grid.Resources>
+                                <SolidColorBrush x:Key="WatermarkBrush" Color="#FFAAAAAA"/>
+                            </Grid.Resources>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0"/>
+                                        <VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver"/>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF99C1E2" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="ContentElement"/>
+                                            <ColorAnimation Duration="0" To="#FF99C1E2" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="watermark_decorator"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="WatermarkStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0"/>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Unwatermarked"/>
+                                    <VisualState x:Name="Watermarked">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="ContentElement"/>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_Watermark"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="FocusStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition GeneratedDuration="0"/>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Unfocused"/>
+                                    <VisualState x:Name="Focused">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisual"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="1" Opacity="1" Padding="{TemplateBinding Padding}">
+                                <Grid x:Name="WatermarkContent" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                    <Border x:Name="ContentElement" BorderBrush="#FFFFFFFF" BorderThickness="1" Visibility="Hidden"/>
+                                    <Border x:Name="watermark_decorator" BorderBrush="#FFFFFFFF" BorderThickness="1" Visibility="Hidden">
+                                        <ContentControl x:Name="PART_Watermark" Focusable="False" IsHitTestVisible="False" Opacity="0" Padding="2"/>
+                                    </Border>
+                                    <ScrollViewer x:Name="PART_ContentHost" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="0" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    <Border x:Name="FocusVisual" BorderBrush="#FF45D6FA" CornerRadius="1" IsHitTestVisible="False" Opacity="0"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Height" Value="35"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <TextBlock Text="SoftMaster Reports" FontSize="30" FontWeight="Bold" Margin="10,0,0,0" Foreground="Red"/>
+        <Button FontSize="30" Height="35" Width="35" Content="⟳" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" Click="Refresh_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,150,0" ForceCursor="True" Background="White" BorderThickness="3" BorderBrush="blue">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Rectangle x:Name="border"
+                                Fill="{TemplateBinding Background}"
+                                Stroke="{TemplateBinding BorderBrush}"
+                                StrokeThickness="{TemplateBinding BorderThickness}"
+                                RadiusX="20" RadiusY="20"
+                                SnapsToDevicePixels="True"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Top" Margin="2.5,-5.5,0,0"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Fill" Value="blue"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <ComboBox x:Name="menuComboBox" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Width="120px" Style="{StaticResource ComboBoxTest2}">
+            <ComboBoxItem Content="Menu">
+                <ComboBoxItem.Template>
+                    <ControlTemplate>
+                        <StackPanel>
+                            <Button Width="120" Content="Połączenie" Click="MenuConnection_Click" Style="{StaticResource RoundedButtonStyle}"/>
+                            <Button Width="120" Content="Dodaj" Click="MenuInsert_Click" Style="{StaticResource RoundedButtonStyle}"/>
+                            <Button Width="120" Content="Generuj" Click="MenuGenerate_Click" Style="{StaticResource RoundedButtonStyle}"/>
+                            <Button Width="120" Content="Edytuj" Click="MenuEdit_Click" Style="{StaticResource RoundedButtonStyle}"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </ComboBoxItem.Template>
+            </ComboBoxItem>
+        </ComboBox>
+
+        <Grid x:Name="grid1" Visibility="Visible">
+            <Grid Margin="0,80,0,0" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110"/>
+                    <ColumnDefinition Width="320"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Grid.Row="0" Content="Pracownik*" Margin="0,10,0,10"/>
+                <ComboBox Grid.Column="1" Grid.Row="0" x:Name="EmployeeComboBox1" Width="200" Margin="10" MaxDropDownHeight="100" Style="{StaticResource ComboBoxTest2}" />
+
+                <Label Grid.Column="0" Grid.Row="1" Content="Klient*" Margin="0,10,0,10"/>
+                <ComboBox Grid.Column="1" Grid.Row="1" x:Name="ClientComboBox1" Width="200" Margin="10" MaxDropDownHeight="300" Style="{StaticResource ComboBoxTest2}"/>
+                <Button Grid.Column="1" Grid.Row="1" Content="Nowy" Click="AddNewClient_Click" HorizontalAlignment="Right"  Margin="0,12,-20,12" Width="70" Height="35" Style="{StaticResource RoundedButtonStyle}"/>
+
+
+                <Label Grid.Column="0" Grid.Row="2" Content="Data" Margin="0,10,0,10"/>
+                <Border Grid.Column="1" Grid.Row="2" Margin="10" MaxWidth="310" CornerRadius="10" BorderBrush="Blue" BorderThickness="1" Background="Transparent" />
+                <DatePicker Grid.Column="1" Grid.Row="2" x:Name="DatePicker" Margin="10" Style="{StaticResource DatePickerStyle}" />
+
+                <Label Grid.Column="0" Grid.Row="3" Content="Czas" Margin="0,10,0,10"/>
+                <TextBox Grid.Column="1" Grid.Row="3" x:Name="TimeTextBox" Style="{StaticResource TextBoxTest2}"/>
+
+                <Label Grid.Column="0" Grid.Row="4" Content="Opis" Margin="0,10,0,10"/>
+                <TextBox Grid.Column="1" Grid.Row="4" x:Name="DescriptionTextBox" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" MaxHeight="100" Style="{StaticResource TextBoxTest2}"/>
+
+                <Label Grid.Column="0" Grid.Row="5" Content="Sprzęt" Margin="0,10,0,10"/>
+                <TextBox Grid.Column="1" Grid.Row="5" x:Name="EquipmentTextBox" Style="{StaticResource TextBoxTest2}"/>
+
+                <Label Grid.Column="0" Grid.Row="6" Content="Dystans" Margin="0,10,0,10"/>
+                <TextBox Grid.Column="1" Grid.Row="6" x:Name="TravelDistanceTextBox" Style="{StaticResource TextBoxTest2}"/>
+
+                <Label Grid.Column="2" Grid.Row="6" Content="Zdalnie" Margin="0,10"/>
+                <CheckBox Grid.Column="2" Grid.Row="6" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked" x:Name="CheckBox" HorizontalAlignment="Right" Width="20" Height="20">
+                    <CheckBox.Template>
+                        <ControlTemplate TargetType="CheckBox">
+                            <Grid>
+                                <Border x:Name="Border" BorderThickness="1" CornerRadius="0" Background="Transparent" BorderBrush="Black">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <Viewbox Margin="5" Visibility="{TemplateBinding IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Grid Width="15" Height="15">
+                                        <Ellipse Fill="Black"/>
+                                    </Grid>
+                                </Viewbox>
+                            </Grid>
+                        </ControlTemplate>
+                    </CheckBox.Template>
+                </CheckBox>
+            </Grid>
+            <Button Width="140" Content="Dodaj" Click="Insert_Click" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}"/>
+        </Grid>
+
+        <Grid x:Name="grid2" Visibility="Hidden">
+            <Grid Margin="0,50,0,0" HorizontalAlignment="Center" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Data od: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <Border Grid.Column="1"  Margin="5" MaxWidth="310" CornerRadius="10" BorderBrush="Blue" BorderThickness="1" Background="Transparent" Height="30"/>
+                                <DatePicker x:Name="StartDatePicker" Width="150" Grid.Column="1" Style="{StaticResource DatePickerStyle}"/>
+                                <TextBlock Text="Data do: " VerticalAlignment="Center" Margin="10,0,5,0" Grid.Column="2"/>
+                                <Border Grid.Column="3" Margin="5" MaxWidth="310" CornerRadius="10" BorderBrush="Blue" BorderThickness="1" Background="Transparent"/>
+                                <DatePicker x:Name="EndDatePicker" Width="150" Grid.Column="3" Style="{StaticResource DatePickerStyle}"/>
+                            </Grid>
+                            <StackPanel Orientation="Horizontal" Margin="5" HorizontalAlignment="Left">
+                                <CheckBox x:Name="GenerateDocCheckBox" Content=".doc" Margin="5"/>
+                                <CheckBox x:Name="GeneratePDFCheckBox" Content=".pdf" Margin="5" IsChecked="True"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+
+
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <TextBlock Text="Firma: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <ComboBox x:Name="ClientComboBox2" Width="200" Height="30" Style="{StaticResource ComboBoxTest2}"/>
+                        <TextBlock Text="Nazwisko: " VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        <ComboBox x:Name="EmployeeComboBox2" Width="120" Height="30"  Style="{StaticResource ComboBoxTest2}"/>
+                        <Button Width="70" Height="30" Content="Szukaj" Click="SearchButton_Click" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+
+
+            <DataGrid ItemsSource="{Binding Items}" AutoGenerateColumns="False" Margin="10,150,10,60"
+      VerticalScrollBarVisibility="Auto" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Uwzględnij" Binding="{Binding IsChecked}" />
+                    <DataGridTextColumn Header="Firma" Binding="{Binding Firma}" />
+                    <DataGridTextColumn Header="Pracownik" Binding="{Binding Pracownik}" />
+                    <DataGridTextColumn Header="Opis" Binding="{Binding Opis}" MaxWidth="600" >
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="ToolTip">
+                                    <Setter.Value>
+                                        <ToolTip>
+                                            <TextBlock Text="{Binding Opis}" TextWrapping="Wrap" Width="200"/>
+                                        </ToolTip>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat={}{0:yyyy-MM-dd}}" />
+                    <DataGridTextColumn Header="Czas" Binding="{Binding CzasString}" />
+                    <DataGridTextColumn Header="Sprzet" Binding="{Binding Sprzet}" Width="478"/>
+                    <DataGridTextColumn Header="Dojazd do klienta" Binding="{Binding DojazdString}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Width="140" Content="Generuj" Click="Generate_Click" Margin="0,0,0,10"
+                Style="{StaticResource RoundedButtonStyle}"/>
+        </Grid>
+
+        <Grid x:Name="grid3" Visibility="Hidden">
+            <Grid Margin="0,50,0,0" HorizontalAlignment="Center" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Vertical" Margin="0,0,0,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Grid.Row="0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Data od: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                                <Border Grid.Column="1"  Margin="5" MaxWidth="310" CornerRadius="10" BorderBrush="Blue" BorderThickness="1" Background="Transparent" Height="30"/>
+                                <DatePicker x:Name="StartDatePicker2" Width="150" Grid.Column="1" Style="{StaticResource DatePickerStyle}"/>
+                                <TextBlock Text="Data do: " VerticalAlignment="Center" Margin="10,0,5,0" Grid.Column="2"/>
+                                <Border Grid.Column="3" Margin="5" MaxWidth="310" CornerRadius="10" BorderBrush="Blue" BorderThickness="1" Background="Transparent"/>
+                                <DatePicker x:Name="EndDatePicker2" Width="150" Grid.Column="3" Style="{StaticResource DatePickerStyle}"/>
+                            </Grid>
+                        </StackPanel>
+
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <TextBlock Text="Firma: " VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <ComboBox x:Name="ClientComboBox3" Width="200" Height="30" Style="{StaticResource ComboBoxTest2}" />
+                        <TextBlock Text="Nazwisko: " VerticalAlignment="Center" Margin="10,0,5,0"/>
+                        <ComboBox x:Name="EmployeeComboBox3" Width="120" Height="30" Style="{StaticResource ComboBoxTest2}"/>
+                        <Button Width="70" Height="30" Content="Szukaj" Click="SearchButton_Click" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+            <DataGrid x:Name="MyDataGrid" ItemsSource="{Binding Items}" AutoGenerateColumns="False" Margin="10,150,10,60"
+  VerticalScrollBarVisibility="Auto" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding ID}" IsReadOnly="True"/>
+                    <DataGridCheckBoxColumn Header="Uwzględnij" Binding="{Binding IsChecked}" />
+                    <DataGridTextColumn Header="Firma" Binding="{Binding Firma}" />
+                    <DataGridTextColumn Header="Pracownik" Binding="{Binding Pracownik}" />
+                    <DataGridTemplateColumn Header="Opis" MaxWidth="600">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Opis}" TextWrapping="Wrap"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Opis}" TextWrapping="Wrap"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat={}{0:yyyy-MM-dd}}" />
+                    <DataGridTextColumn Header="Czas" Binding="{Binding CzasString}" />
+                    <DataGridTextColumn Header="Sprzet" Binding="{Binding Sprzet}" Width="478"/>
+                    <DataGridTextColumn Header="Dojazd do klienta" Binding="{Binding DojazdString}" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button Width="140" Content="Edytuj" Click="Edit_Click" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}"/>
+        </Grid>
+    </Grid>
+</Window>

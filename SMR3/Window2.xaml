@@ -1,0 +1,108 @@
+﻿<Window x:Class="SMR3.Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Dodaj klienta" Height="400" Width="400"
+        FontSize="16"
+        Icon="smrlogo.ico">
+    
+    <Window.Resources>
+        <Style x:Key="TextBoxTest2" TargetType="{x:Type TextBox}">
+            <Setter Property="BorderBrush" Value="Blue"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="10">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <TextBlock Text="SoftMaster Reports" FontSize="30" FontWeight="Bold" Margin="10,0,0,0" Foreground="Red"/>
+
+        <Grid Margin="0,80,0,0" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="220"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Content="Imie" Margin="0,10,0,10"/>
+            <TextBox Grid.Column="1" Grid.Row="0" x:Name="ImieTextBox" Margin="10" MaxWidth="310" Style="{StaticResource TextBoxTest2}"/>
+
+            <Label Grid.Column="0" Grid.Row="1" Content="Nazwisko" Margin="0,10,0,10"/>
+            <TextBox Grid.Column="1" Grid.Row="1" x:Name="NazwiskoTextBox" Margin="10" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" MaxWidth="310" MaxHeight="100" Style="{StaticResource TextBoxTest2}"/>
+
+            <Label Grid.Column="0" Grid.Row="2" Content="Firma*" Margin="0,10,0,10"/>
+            <TextBox Grid.Column="1" Grid.Row="2" x:Name="FirmaTextBox" Margin="10" MaxWidth="310" Style="{StaticResource TextBoxTest2}"/>
+        </Grid>
+        <Button Height="40" Width="140" Content="Dodaj" Click="Insert_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="-150,0,0,40" Background="White" BorderThickness="3" BorderBrush="blue">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Rectangle x:Name="border"
+                            Fill="{TemplateBinding Background}"
+                            Stroke="{TemplateBinding BorderBrush}"
+                            StrokeThickness="{TemplateBinding BorderThickness}"
+                            RadiusX="20" RadiusY="20"
+                            SnapsToDevicePixels="True"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Fill" Value="blue"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Height="40" Width="140" Content="Anuluj" Click="Anuluj_Click" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="150,0,0,40" Background="White" BorderThickness="3" BorderBrush="red">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Rectangle x:Name="border"
+                            Fill="{TemplateBinding Background}"
+                            Stroke="{TemplateBinding BorderBrush}"
+                            StrokeThickness="{TemplateBinding BorderThickness}"
+                            RadiusX="20" RadiusY="20"
+                            SnapsToDevicePixels="True"/>
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="border" Property="Fill" Value="red"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+</Window>
