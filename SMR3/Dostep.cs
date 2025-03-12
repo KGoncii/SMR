@@ -12,7 +12,7 @@ namespace SMR3
         public static bool IntegratedSecurity { get; } = false;
         public static string UserID { get; private set; } // Nazwa użytkownika
         public static string Password { get; private set; } // Hasło użytkownika
-        public static int ConnectTimeout { get; } = 10; // Czas przez który program będzie próbował się połączyć
+        public static int ConnectTimeout { get; } = 5; // Czas przez który program będzie próbował się połączyć
 
         static Dostep()
         {

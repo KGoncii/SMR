@@ -36,7 +36,6 @@ namespace SMR3
             this.mainWindow = this;
             LoadFirmyFromDatabase();
             LoadNazwiskaFromDatabase();
-            menuComboBox.SelectedItem = menuComboBox.Items[0];
             string connectionString = Dostep.GetConnectionString();
             dbOperations = new DatabaseOperations(connectionString);
             if (dbOperations.TestConnection())
@@ -723,6 +722,9 @@ namespace SMR3
 
                 string connectionString = $"Data Source={serverName};Initial Catalog={databaseName};User ID={userName};Password={password};";
             }
+            SlidingMenu.Visibility = Visibility.Collapsed;
+            SearchData();
+
         }
         private void MenuInsert_Click(object sender, RoutedEventArgs e)
         {
@@ -730,6 +732,9 @@ namespace SMR3
             grid1.Visibility = Visibility.Visible;
             grid3.Visibility = Visibility.Hidden;
             Title = "Dodaj zamówienie";
+            SlidingMenu.Visibility = Visibility.Collapsed;
+            SearchData();
+
         }
         private void MenuGenerate_Click(object sender, RoutedEventArgs e)
         {
@@ -738,6 +743,9 @@ namespace SMR3
             grid3.Visibility = Visibility.Hidden;
             Title = "Generuj raport";
             pom = true;
+            SlidingMenu.Visibility = Visibility.Collapsed;
+            SearchData();
+
         }
         private void MenuEdit_Click(object sender, RoutedEventArgs e)
         {
@@ -746,6 +754,21 @@ namespace SMR3
             grid3.Visibility = Visibility.Visible;
             Title = "Edytuj rekordy";
             pom = false;
+            SlidingMenu.Visibility = Visibility.Collapsed;
+            SearchData();
+
+        }       
+        private void MenuIconButton_Click(object sender, RoutedEventArgs e)
+        {
+            SlidingMenu.Visibility = Visibility.Visible;
+        }
+        private void SlidingMenu_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            SlidingMenu.Visibility = Visibility.Collapsed;
+        }
+        private void MenuIconEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            SlidingMenu.Visibility = Visibility.Visible;
         }
         // --- ---- --- //
     }

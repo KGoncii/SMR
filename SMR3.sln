@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMR3", "SMR3\SMR3.csproj", "{2CEA7C6B-F5A5-4716-9B04-B3334FC4825F}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup2", "Setup2\Setup2.vdproj", "{3F34E70B-AE7E-48B2-BE10-DCA6CE8C73EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{2CEA7C6B-F5A5-4716-9B04-B3334FC4825F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CEA7C6B-F5A5-4716-9B04-B3334FC4825F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CEA7C6B-F5A5-4716-9B04-B3334FC4825F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F34E70B-AE7E-48B2-BE10-DCA6CE8C73EF}.Debug|Any CPU.ActiveCfg = Debug
+		{3F34E70B-AE7E-48B2-BE10-DCA6CE8C73EF}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

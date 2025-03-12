@@ -8,6 +8,7 @@
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderBrush" Value="Blue"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -37,6 +38,7 @@
             </Setter>
         </Style>
         <Style x:Key="TextBoxTest2" TargetType="{x:Type TextBox}">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderBrush" Value="Blue"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="10,5"/>
@@ -56,6 +58,7 @@
             </Setter>
         </Style>
         <Style x:Key="ComboBoxTest2" TargetType="{x:Type ComboBox}">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Height" Value="35"/>
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Template">
@@ -115,6 +118,7 @@
             <Setter Property="FontSize" Value="20"/>
         </Style>
         <Style x:Key="DatePickerTextBoxStyle1" TargetType="{x:Type DatePickerTextBox}">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
             <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
             <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
@@ -180,16 +184,45 @@
             </Setter>
         </Style>
         <Style x:Key="DatePickerStyle" TargetType="{x:Type DatePicker}">
+            <Setter Property="Cursor" Value="Hand"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Height" Value="35"/>
         </Style>
+        <Style x:Key="CustomButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Margin" Value="0,25,0,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,5"/>
+                                <Border x:Name="BottomBorder" BorderBrush="Black" BorderThickness="0,0,0,2" VerticalAlignment="Bottom"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BottomBorder" Property="BorderBrush" Value="Red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
-        <TextBlock Text="SoftMaster Reports" FontSize="30" FontWeight="Bold" Margin="10,0,0,0" Foreground="Red"/>
-        <Button FontSize="30" Height="35" Width="35" Content="⟳" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" Click="Refresh_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,150,0" ForceCursor="True" Background="White" BorderThickness="3" BorderBrush="blue">
+        <TextBlock Text="SoftMaster Raports" FontSize="30" FontWeight="Bold" Margin="10,0,0,0" Foreground="Red"/>
+        <Button FontSize="30" Height="35" Width="35" Content="⟳" MouseEnter="Button_MouseEnter" MouseLeave="Button_MouseLeave" Click="Refresh_Click" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,40,0" ForceCursor="True" Background="White" BorderThickness="3" BorderBrush="blue" Cursor="Hand">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Template">
@@ -216,21 +249,6 @@
                 </Style>
             </Button.Style>
         </Button>
-
-        <ComboBox x:Name="menuComboBox" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10" Width="120px" Style="{StaticResource ComboBoxTest2}">
-            <ComboBoxItem Content="Menu">
-                <ComboBoxItem.Template>
-                    <ControlTemplate>
-                        <StackPanel>
-                            <Button Width="120" Content="Połączenie" Click="MenuConnection_Click" Style="{StaticResource RoundedButtonStyle}"/>
-                            <Button Width="120" Content="Dodaj" Click="MenuInsert_Click" Style="{StaticResource RoundedButtonStyle}"/>
-                            <Button Width="120" Content="Generuj" Click="MenuGenerate_Click" Style="{StaticResource RoundedButtonStyle}"/>
-                            <Button Width="120" Content="Edytuj" Click="MenuEdit_Click" Style="{StaticResource RoundedButtonStyle}"/>
-                        </StackPanel>
-                    </ControlTemplate>
-                </ComboBoxItem.Template>
-            </ComboBoxItem>
-        </ComboBox>
 
         <Grid x:Name="grid1" Visibility="Visible">
             <Grid Margin="0,80,0,0" HorizontalAlignment="Center">
@@ -276,7 +294,7 @@
                 <TextBox Grid.Column="1" Grid.Row="6" x:Name="TravelDistanceTextBox" Style="{StaticResource TextBoxTest2}"/>
 
                 <Label Grid.Column="2" Grid.Row="6" Content="Zdalnie" Margin="0,10"/>
-                <CheckBox Grid.Column="2" Grid.Row="6" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked" x:Name="CheckBox" HorizontalAlignment="Right" Width="20" Height="20">
+                <CheckBox Grid.Column="2" Grid.Row="6" Checked="CheckBox_Checked" Unchecked="CheckBox_UnChecked" x:Name="CheckBox" HorizontalAlignment="Right" Width="20" Height="20" Cursor="Hand">
                     <CheckBox.Template>
                         <ControlTemplate TargetType="CheckBox">
                             <Grid>
@@ -441,5 +459,27 @@
             </DataGrid>
             <Button Width="140" Content="Edytuj" Click="Edit_Click" Margin="0,0,0,10" Style="{StaticResource RoundedButtonStyle}"/>
         </Grid>
+        <!-- M E N U -->
+        <Button x:Name="MenuIconButton" Width="60" Height="50" HorizontalAlignment="Right" Click="MenuIconButton_Click" 
+        Margin="0,60,-30,0" VerticalAlignment="Top" Style="{StaticResource RoundedButtonStyle}" Cursor="Hand" MouseEnter="MenuIconEnter">
+            <Button.Content>
+                <TextBlock Text="☰">
+                    <TextBlock.RenderTransform>
+                        <TranslateTransform X="-10"/>
+                    </TextBlock.RenderTransform>
+                </TextBlock>
+            </Button.Content>
+        </Button>
+        <Grid x:Name="SlidingMenu" Background="White" Width="200" HorizontalAlignment="Right" Visibility="Collapsed"
+              MouseLeave="SlidingMenu_MouseLeave">
+            <StackPanel VerticalAlignment="Center" Margin="0,0,0,200">
+                <Button Width="120" Content="Połączenie" Click="MenuConnection_Click" Style="{StaticResource CustomButtonStyle}"/>
+                <Button Width="120" Content="Dodaj" Click="MenuInsert_Click" Style="{StaticResource CustomButtonStyle}"/>
+                <Button Width="120" Content="Generuj" Click="MenuGenerate_Click" Style="{StaticResource CustomButtonStyle}"/>
+                <Button Width="120" Content="Edytuj" Click="MenuEdit_Click" Style="{StaticResource CustomButtonStyle}"/>
+            </StackPanel>
+        </Grid>
+        <!-- /M E N U -->
     </Grid>
+    
 </Window>
